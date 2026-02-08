@@ -5,6 +5,7 @@ import (
 
 	"github.com/kisielk/errcheck/errcheck"
 	"golang.org/x/tools/go/analysis/analysistest"
+
 	"lesiw.io/checker"
 	"lesiw.io/linelen"
 )
