@@ -72,10 +72,7 @@ func checkFieldList(pass *analysis.Pass, fields *ast.FieldList, kind string) {
 	}
 }
 
-func reportRedundantTypes(
-	pass *analysis.Pass, fields []*ast.Field, kind string,
-	allFields []*ast.Field, allRedundantGroups [][]*ast.Field,
-) {
+func reportRedundantTypes(pass *analysis.Pass, fields []*ast.Field, kind string, allFields []*ast.Field, allRedundantGroups [][]*ast.Field) {
 	if fieldsUnnamed(fields) {
 		// Report once on the first field with a fix for the entire group.
 		pass.Report(analysis.Diagnostic{
@@ -94,12 +91,14 @@ func reportRedundantTypes(
 
 	// Report on all but the last field in the group.
 	for i := range len(fields) - 1 {
-		field := fields[i]
-		diagnostic := analysis.Diagnostic{
-			Pos:     field.Type.Pos(),
-			End:     field.Type.End(),
-			Message: "redundant type in " + kind + " list",
-		}
+		var (
+			field      = fields[i]
+			diagnostic = analysis.Diagnostic{
+				Pos:     field.Type.Pos(),
+				End:     field.Type.End(),
+				Message: "redundant type in " + kind + " list",
+			}
+		)
 		if len(field.Names) > 0 {
 			// For named fields, remove the redundant type.
 			diagnostic.SuggestedFixes = []analysis.SuggestedFix{{
@@ -124,9 +123,7 @@ func fieldsUnnamed(fields []*ast.Field) bool {
 	return true
 }
 
-func createUnnamedFieldFix(
-	fields, allFields []*ast.Field, allRedundantGroups [][]*ast.Field,
-) (edits []analysis.TextEdit) {
+func createUnnamedFieldFix(fields, allFields []*ast.Field, allRedundantGroups [][]*ast.Field) (edits []analysis.TextEdit) {
 	for i, field := range fields {
 		if i == len(fields)-1 {
 			// Last field in redundant group: add "_" and keep type
