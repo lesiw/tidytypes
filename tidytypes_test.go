@@ -20,7 +20,7 @@ func TestCheck(t *testing.T) {
 
 func TestAnalysisTest(t *testing.T) {
 	testdata := analysistest.TestData()
-	pkgs := []string{"basic", "parameters", "returns"}
+	pkgs := []string{"basic", "parameters", "returns", "variadic"}
 	for _, pkg := range pkgs {
 		t.Run(pkg, func(t *testing.T) {
 			analysistest.Run(t, testdata, Analyzer, pkg)

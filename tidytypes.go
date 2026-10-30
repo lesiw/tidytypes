@@ -167,6 +167,15 @@ func createUnnamedFieldFix(
 }
 
 func sameType(pass *analysis.Pass, t1, t2 ast.Expr) bool {
+	// A variadic type never groups: go/types reports ...T as []T,
+	// but out, src ...byte is not a legal grouping of
+	// out []byte, src ...byte.
+	if _, ok := t1.(*ast.Ellipsis); ok {
+		return false
+	}
+	if _, ok := t2.(*ast.Ellipsis); ok {
+		return false
+	}
 	type1 := pass.TypesInfo.TypeOf(t1)
 	type2 := pass.TypesInfo.TypeOf(t2)
 	if type1 == nil || type2 == nil {
