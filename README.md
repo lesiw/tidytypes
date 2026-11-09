@@ -1,3 +1,6 @@
+> [!NOTE]
+> This repository has moved to [lesiw.io/tools/analyzers/tidytypes](https://github.com/lesiw/tools/tree/main/analyzers/tidytypes).
+
 # lesiw.io/tidytypes [![Go Reference](https://pkg.go.dev/badge/lesiw.io/tidytypes.svg)](https://pkg.go.dev/lesiw.io/tidytypes)
 
 An `analysis.Analyzer` that reports redundant type declarations in function
